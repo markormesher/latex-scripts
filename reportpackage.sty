@@ -1,0 +1,133 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{reportpackage}[2016/09/29]
+
+\documentclass[twoside,openright,12pt]{report}
+
+% packages
+\RequirePackage[explicit]{titlesec}
+\RequirePackage{fontspec}
+\RequirePackage{geometry}
+\RequirePackage{fancyhdr}
+\RequirePackage{nameref}
+\RequirePackage{kvoptions}
+\RequirePackage[table]{xcolor}
+\RequirePackage{multirow}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{lscape}
+\RequirePackage{titlesec}
+\RequirePackage{setspace}
+\RequirePackage[bottom]{footmisc}
+
+% options
+\SetupKeyvalOptions{
+	family=DP,
+	prefix=DP@
+}
+\DeclareStringOption[\textcolor{red}{SPECIFY A HEADER}]{header}
+\ProcessKeyvalOptions*
+
+% layout and style
+\geometry{a4paper, margin=2.2cm}
+\setmainfont[Ligatures=TeX]{Lato Light}
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{0pt}
+\titlespacing\section{0pt}{8pt plus 2pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{8pt plus 2pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{0pt}{0pt plus 2pt minus 2pt}{0pt plus 0pt minus 0pt}
+\titlespacing*{\chapter}{0pt}{-50pt}{40pt}
+\onehalfspacing
+\raggedbottom
+
+% shortcuts
+\renewcommand{\i}[1]{\textit{#1}} % italic
+\renewcommand{\b}[1]{\textbf{#1}} % bold
+\newcommand{\q}[1]{`#1'} % quotes
+\newcommand{\todo}[1]{\textcolor{red}{\textit{#1}}}
+\newcommand{\hr}{\begin{center} \noindent\rule{4cm}{0.4pt} \end{center}}
+\newcommand{\red}[1]{\textcolor[rgb]{0.8, 0.13, 0.13}{#1}}
+\newcommand{\blue}[1]{\textcolor[rgb]{0, 0, 0.8}{#1}}
+\newcommand{\green}[1]{\textcolor[rgb]{0.13, 0.70, 0.13}{#1}}
+\newcommand{\purple}[1]{\textcolor[rgb]{0.58, 0, 0.83}{#1}}
+\newcommand{\grey}[1]{\textcolor[rgb]{0.7, 0.7, 0.7}{#1}}
+\newcommand{\Seemore}[1]{\textcolor{blue}{\textit{See more: \nameref{#1}, page \pageref{#1}}}}
+\newcommand{\seemore}[1]{\textcolor{blue}{\textit{see more: \nameref{#1}, page \pageref{#1}}}}
+
+% annotation helpers
+\newcommand{\superdelta}{\textsuperscript{$\Delta$}}
+
+% code
+\RequirePackage{listings}
+\RequirePackage{fontspec}
+\newfontfamily{\codefamily}[Scale=0.9]{Courier}
+\lstset{
+	frame=l,
+	aboveskip=\baselineskip,
+	numbers=left, 
+	numberstyle=\tiny\color{gray},
+	tabsize=4,
+	basicstyle=\codefamily,
+	keywordstyle=\textbf,
+	keywords={
+		while, not, is, for, foreach, if, else, from, to,
+		return, spawn, sync, fun, do, then, done, until,
+		true, false, nil, break,
+		private, public, protected, final, static
+	},
+	xleftmargin=.04\textwidth,
+}
+\newcommand{\code}[1]{\lstinline|#1|}
+\lstnewenvironment{codeblock}[1][]{
+	\noindent
+	\minipage{\linewidth} 
+	\lstset{}
+}{\endminipage}
+
+% equations
+\RequirePackage[fleqn]{amsmath}
+\RequirePackage{amssymb}
+\setlength{\mathindent}{\parindent}
+
+% headers
+\pagestyle{fancy}
+\lhead{\DP@header}
+\rhead{Mark Ormesher}
+\setlength{\headheight}{15pt}
+
+% figures and captions
+\RequirePackage{caption}
+\captionsetup[figure]{labelfont=bf}
+
+% lists
+\RequirePackage{enumitem}
+\setlist[itemize]{topsep=0mm}
+
+% bibliography
+\RequirePackage{etoolbox}
+\RequirePackage[sort, numbers]{natbib}
+\RequirePackage[UKenglish]{isodate}
+%\patchcmd{\thebibliography}{\section*{\refname}}{}{}{} % no title
+\bibliographystyle{../../latex/kclharvardv1}
+%\setcitestyle{square}
+
+% glossary
+\RequirePackage[nonumberlist,nopostdot]{glossaries}
+\renewcommand{\glossarysection}[2][]{} % no titles
+\renewcommand{\glstextformat}[1]{\textit{#1}\textsuperscript{†}} % format usages
+
+% glossary example
+%\newglossaryentry{vle}
+%{
+%	name=VLE,
+%	first={virtual learning environment (VLE)},
+%	description={A virtual learning environment is a system for delivering learning materials to students via the web or other digital platforms.}
+%}
+%\makeglossaries
+% --
+%\glsresetall
+%\printglossary
+
+% indexes
+\RequirePackage[xindy]{imakeidx}
+\makeindex
+
+\endinput
